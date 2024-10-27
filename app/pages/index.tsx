@@ -1,7 +1,12 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { WeatherScreenNavigationProp } from "../../lib/types";
 
-const WeatherScreen = () => {
+type NavigationProps = {
+  navigation: WeatherScreenNavigationProp;
+};
+
+const WeatherScreen = ({ navigation }: NavigationProps) => {
   const cityList = [
     {
       name: "My Location",
@@ -21,10 +26,14 @@ const WeatherScreen = () => {
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         {cityList.map((city) => (
-          <View style={styles.listContainer} key={city.name}>
+          <Pressable
+            key={city.name}
+            onPress={() => navigation.navigate("WeatherDetailScreen", { city })}
+            style={styles.listContainer}
+          >
             <Text style={styles.listItemText}>{city.name}</Text>
             <Text style={styles.listItemText}>{city.weather}</Text>
-          </View>
+          </Pressable>
         ))}
       </SafeAreaView>
     </SafeAreaProvider>
