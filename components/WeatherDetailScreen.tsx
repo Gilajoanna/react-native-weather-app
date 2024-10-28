@@ -19,12 +19,11 @@ export default function WeatherDetailScreen({ route }: NavigationProps) {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: "column",
     alignItems: "center",
+    alignSelf: "center",
     paddingHorizontal: 10,
     paddingVertical: 20,
-    marginVertical: 10,
+    marginTop: 30,
     backgroundColor: "white",
     borderRadius: 8,
     width: "90%",
