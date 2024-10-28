@@ -1,7 +1,7 @@
+import { fetchWeatherData } from "@/api/weatherApiService";
 import { useEffect } from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { getWeather } from "../../api/weatherApiService";
 import { WeatherScreenNavigationProp } from "../../lib/types";
 
 type NavigationProps = {
@@ -25,14 +25,6 @@ const WeatherScreen = ({ navigation }: NavigationProps) => {
   ];
 
   useEffect(() => {
-    const fetchWeatherData = async () => {
-      try {
-        const data = await getWeather();
-        console.log(data);
-      } catch (error) {
-        console.log("Debug: Could not fetch weather data with error: ", error);
-      }
-    };
     fetchWeatherData();
   }, []);
 
