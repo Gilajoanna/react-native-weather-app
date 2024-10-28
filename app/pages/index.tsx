@@ -1,5 +1,6 @@
 import { fetchWeatherData } from "@/api/weatherApiService";
-import { useEffect } from "react";
+import { WeatherResponse, roundedMainWeather } from "@/lib/data";
+import { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { WeatherScreenNavigationProp } from "../../lib/types";
@@ -9,38 +10,45 @@ type NavigationProps = {
 };
 
 const WeatherScreen = ({ navigation }: NavigationProps) => {
-  const cityList = [
-    {
-      name: "My Location",
-      weather: "12°",
-    },
-    {
-      name: "London",
-      weather: "16°",
-    },
-    {
-      name: "Berlin",
-      weather: "10°",
-    },
-  ];
+  const [weatherData, setWeatherData] = useState<WeatherResponse[]>([]);
 
   useEffect(() => {
-    fetchWeatherData();
+    const fetchData = async () => {
+      try {
+        const cityList = await fetchWeatherData();
+        setWeatherData(cityList || []); // Provide a default value for weatherData
+      } catch (error) {
+        console.log("Debug: Could not fetch weather data with error: ", error);
+      }
+    };
+    fetchData();
   }, []);
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-        {cityList.map((city) => (
-          <Pressable
-            key={city.name}
-            onPress={() => navigation.navigate("WeatherDetailScreen", { city })}
-            style={styles.listContainer}
-          >
-            <Text style={styles.listItemText}>{city.name}</Text>
-            <Text style={styles.listItemText}>{city.weather}</Text>
-          </Pressable>
-        ))}
+        {weatherData.map(
+          (city: WeatherResponse) => (
+            (city.main = roundedMainWeather(city.main)),
+            (
+              <Pressable
+                key={city.id}
+                onPress={() =>
+                  navigation.navigate("WeatherDetailScreen", {
+                    city: {
+                      name: city.name,
+                      weather: city.weather[0].description,
+                    },
+                  })
+                }
+                style={styles.listContainer}
+              >
+                <Text style={styles.listItemText}>{city.name}</Text>
+                <Text style={styles.listItemText}>{city.main.temp}°C</Text>
+              </Pressable>
+            )
+          )
+        )}
       </SafeAreaView>
     </SafeAreaProvider>
   );

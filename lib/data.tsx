@@ -47,3 +47,14 @@ export type Sys = {
   sunrise: number;
   sunset: number;
 };
+
+export const roundedMainWeather = (main: MainWeather) => {
+  return {
+    temp: Math.round(main.temp),
+    feels_like: Math.round(main.feels_like),
+    temp_min: Math.round(main.temp_min),
+    temp_max: Math.round(main.temp_max),
+    pressure: main.pressure,
+    humidity: main.humidity,
+  };
+};
