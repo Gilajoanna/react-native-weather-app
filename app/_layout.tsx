@@ -1,8 +1,8 @@
-import WeatherDetailScreen from "@/components/WeatherDetailScreen";
+import WeatherDetailScreen from "@/app/WeatherDetailScreen";
 import { RootStackParamList } from "@/lib/types";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import WeatherScreen from "./pages/index";
+import WeatherScreen from "./index";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 

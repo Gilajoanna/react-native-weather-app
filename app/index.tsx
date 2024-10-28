@@ -3,7 +3,7 @@ import { WeatherResponse, roundedMainWeather } from "@/lib/data";
 import { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { WeatherScreenNavigationProp } from "../../lib/types";
+import { WeatherScreenNavigationProp } from "../lib/types";
 
 type NavigationProps = {
   navigation: WeatherScreenNavigationProp;
@@ -16,7 +16,7 @@ const WeatherScreen = ({ navigation }: NavigationProps) => {
     const fetchData = async () => {
       try {
         const cityList = await fetchWeatherData();
-        setWeatherData(cityList || []); // Provide a default value for weatherData
+        setWeatherData(cityList ?? []);
       } catch (error) {
         console.log("Debug: Could not fetch weather data with error: ", error);
       }
@@ -32,6 +32,7 @@ const WeatherScreen = ({ navigation }: NavigationProps) => {
             (city.main = roundedMainWeather(city.main)),
             (
               <Pressable
+                testID="pressable"
                 key={city.id}
                 onPress={() =>
                   navigation.navigate("WeatherDetailScreen", {
@@ -43,8 +44,12 @@ const WeatherScreen = ({ navigation }: NavigationProps) => {
                 }
                 style={styles.listContainer}
               >
-                <Text style={styles.listItemText}>{city.name}</Text>
-                <Text style={styles.listItemText}>{city.main.temp}°C</Text>
+                <Text testID="cityName" style={styles.listItemText}>
+                  {city.name}
+                </Text>
+                <Text testID="cityTemp" style={styles.listItemText}>
+                  {city.main.temp}°C
+                </Text>
               </Pressable>
             )
           )
