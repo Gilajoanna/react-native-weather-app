@@ -18,7 +18,7 @@ export default function RootLayout() {
         <Stack.Screen
           name="WeatherDetailScreen"
           component={WeatherDetailScreen}
-          options={{ title: "Weather detils" }}
+          options={{ title: "Weather details" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
