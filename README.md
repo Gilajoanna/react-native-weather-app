@@ -1,6 +1,4 @@
-# Welcome to your Expo app 👋
-
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This is a React Native app developed for iOS using Typescript and the Expo framework.
 
 ## Get started
 
@@ -16,35 +14,27 @@ This is an [Expo](https://expo.dev) project created with [`create-expo-app`](htt
     npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+## How I approached the assignment
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+1. Research and Planning: Since this was my first React Native project, I began by researching React Native basics, consulting documentation and articles to choose appropriate libraries for navigation, HTTP requests, and API handling.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+2. The next step was setting up the screens with hardcoded data and configuring navigation between them. To guide me through this, I followed the React Native documentation to understand how to do this with Typescript and also to understand essential UI elements, such as Navigation, SafeAreaView, and Pressable.
 
-## Get a fresh project
+3. For weather data, I chose the OpenWeather API, as I had experience with it from a previous project. Currently, the API_KEY is located in the service file, though it should be moved to an .env file. I used Axios for the HTTP requests, first logging the fetched data to the console to verify it before replacing the hardcoded data in the UI.
 
-When you're ready, run:
+4. Finally, I aimed to implement unit tests for the two primary functions in the app: navigation to the detail screen and correctly rendering data from the API. This turned out to be challenging, as my tests consistently failed. I tried consulting documentation and even used GitHub Copilot for guidance, but they still don’t pass. I suspect the issue might be related to the Jest mock setup for navigation.
 
-```bash
-npm run reset-project
-```
+## Improvements
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+- Resolve the current navigation test issues, particularly around Jest mocks, to ensure stable test results.
+- Secure the API key by moving it to a .env file, ensuring sensitive data isn’t hardcoded.
+- E2E-testing and set up CI/CD pipelines to streamline automated testing and deployment with Github actions.
+- Handeling isLoading-state.
+- Having all the CSS in 1 file or maybe implementing NativeWind for the project.
 
-## Learn more
+## Frameworks and libaries used
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+- Expo
+- Axios for HTTP-request. Neat and simple to use for this simple request. Easy to read.
+- Jest for testing.
+- ESLint and Prettier.
