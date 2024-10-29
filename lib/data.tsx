@@ -48,7 +48,7 @@ export type Sys = {
   sunset: number;
 };
 
-export const roundedMainWeather = (main: MainWeather) => {
+export const roundedMainWeather = (main: MainWeather): MainWeather => {
   return {
     temp: Math.round(main.temp),
     feels_like: Math.round(main.feels_like),
@@ -57,4 +57,13 @@ export const roundedMainWeather = (main: MainWeather) => {
     pressure: main.pressure,
     humidity: main.humidity,
   };
+};
+
+export const formatTime = (timestamp: number): string => {
+  const date = new Date(timestamp * 1000);
+  return date.toLocaleTimeString("no-NO", {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
 };
