@@ -4,21 +4,22 @@ import axios from "axios";
 const API_KEY = "242dcd9af76441f6a781a38ac435048a";
 const BASE_URL = "https://api.openweathermap.org/data/2.5/weather";
 
-const cityList: WeatherResponse[] = [];
-
 export const fetchWeatherData = async () => {
-  try {
-    const myLocationData = await getWeather("Oslo");
-    const londonData = await getWeather("London");
-    const berlinData = await getWeather("Berlin");
+  const cityList: WeatherResponse[] = [];
 
-    if (myLocationData && londonData && berlinData) {
-      cityList.push(myLocationData, londonData, berlinData);
-      //console.log(cityList);
-      return cityList;
-    } else {
-      console.log("Debug: Could not get weather data");
-    }
+  try {
+    const results = await Promise.all([
+      getWeather("Oslo"),
+      getWeather("London"),
+      getWeather("Berlin"),
+    ]);
+
+    results.forEach((result) => {
+      if (result !== undefined) {
+        cityList.push(result);
+      }
+    });
+    return cityList;
   } catch (error) {
     console.log("Debug: Could not get weather data with error: ", error);
   }

@@ -1,5 +1,5 @@
 import { fetchWeatherData } from "@/api/weatherApiService";
-import { WeatherResponse, formatTime, roundedMainWeather } from "@/lib/data";
+import { WeatherResponse, formatTime, roundedNumber } from "@/lib/data";
 import { useEffect, useState } from "react";
 import { Pressable, StyleSheet, Text } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -10,7 +10,7 @@ type NavigationProps = {
 };
 
 const WeatherScreen = ({ navigation }: NavigationProps) => {
-  const [weatherData, setWeatherData] = useState<WeatherResponse[]>([]);
+  const [weatherData, setWeatherData] = useState<WeatherResponse[]>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -28,40 +28,35 @@ const WeatherScreen = ({ navigation }: NavigationProps) => {
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         {weatherData && weatherData.length > 0 ? (
-          weatherData.map(
-            (city: WeatherResponse) => (
-              (city.main = roundedMainWeather(city.main)),
-              (
-                <Pressable
-                  testID="pressable"
-                  key={city.id}
-                  onPress={() =>
-                    navigation.navigate("WeatherDetailScreen", {
-                      city: {
-                        name: city.name,
-                        weather: city.weather[0].description,
-                        temp: city.main.temp,
-                        temp_min: city.main.temp_min,
-                        temp_max: city.main.temp_max,
-                        feels_like: city.main.feels_like,
-                        sunrise: formatTime(city.sys.sunrise),
-                        sunset: formatTime(city.sys.sunset),
-                        humidity: city.main.humidity,
-                      },
-                    })
-                  }
-                  style={styles.listContainer}
-                >
-                  <Text testID="cityName" style={styles.listItemText}>
-                    {city.name}
-                  </Text>
-                  <Text testID="cityTemp" style={styles.listItemText}>
-                    {city.main.temp}°C
-                  </Text>
-                </Pressable>
-              )
-            )
-          )
+          weatherData.map((city: WeatherResponse) => (
+            <Pressable
+              testID="pressable"
+              key={city.id}
+              onPress={() =>
+                navigation.navigate("WeatherDetailScreen", {
+                  city: {
+                    name: city.name,
+                    weather: city.weather[0].description,
+                    temp: roundedNumber(city.main.temp),
+                    temp_min: roundedNumber(city.main.temp_min),
+                    temp_max: roundedNumber(city.main.temp_max),
+                    feels_like: roundedNumber(city.main.feels_like),
+                    sunrise: formatTime(city.sys.sunrise),
+                    sunset: formatTime(city.sys.sunset),
+                    humidity: city.main.humidity,
+                  },
+                })
+              }
+              style={styles.listContainer}
+            >
+              <Text testID="cityName" style={styles.listItemText}>
+                {city.name}
+              </Text>
+              <Text testID="cityTemp" style={styles.listItemText}>
+                {roundedNumber(city.main.temp)}°C
+              </Text>
+            </Pressable>
+          ))
         ) : (
           <Text>Could not fetch weather data.</Text>
         )}
